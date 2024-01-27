@@ -1,0 +1,70 @@
+<div class="container-fluid mt-4">
+    <div class="row p-2">
+        <div class="col-lg-6">
+            <table class="table table-bordered table-responsive">
+                <caption>
+                    <ul class="pagination">
+                        <li class="page-item" style="cursor: pointer;" [class.disabled]="paginaActual === 1">
+                            <a class="page-link" style="cursor: pointer;" (click)="paginaAnterior()">&laquo;</a>
+                        </li>
+                        <li class="page-item" style="cursor: pointer;" *ngFor="let pagina of paginas"
+                            [class.active]="pagina === paginaActual">
+                            <a class="page-link" style="cursor: pointer;" (click)="cambiarPagina(pagina)">{{ pagina
+                                }}</a>
+                        </li>
+                        <li class="page-item" style="cursor: pointer;" [class.disabled]="paginaActual === totalPaginas">
+                            <a class="page-link" style="cursor: pointer;" (click)="paginaSiguiente()">&raquo;</a>
+                        </li>
+                    </ul>
+                    {{getTranslation('nav_dashboard_chat')}}
+                </caption>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>{{getTranslation('tbl_cliente')}}</th>
+                        <th>{{getTranslation('tbl_mensaje')}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let i of clientes" class="item-select"
+                        [ngClass]="{'bg-primary text-white': i.rut_cliente == rut_cliente}">
+                        <td>
+                            <button class="btn btn-primary" (click)="chat(i.rut_cliente)"
+                                *ngIf="i.rut_cliente != rut_cliente">Seleccionar Chat</button>
+                        </td>
+                        <td>{{i.nombre}} {{i.apellido_paterno}} {{i.apellido_materno}}</td>
+                        <td>{{i.mensaje}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-lg-auto col-lg-6" *ngIf="rut_cliente">
+            <strong class="text-center mb-2">{{getTranslation('nav_subtitulo_chat')}}</strong>
+
+            <!-- En tu plantilla HTML -->
+            <div class="chat-container" style="height: auto; overflow: auto;">
+                <strong
+                    class="mb-2 d-flex border-rounded-2 text-center bg-primary text-white ps-4">{{getTranslation('chat_hoy')}}:
+                    {{
+                    ultimaFecha | date :
+                    'dd-MM-yyyy' }}</strong>
+                <div *ngFor="let message of chatUsuario.slice(-20)" class="mb-1 ps-2">
+                    <small class="text-muted">{{ message.fecha_envio | date : 'HH:mm:ss' }} </small>
+
+                    <strong *ngIf="message.rut_usuario == rut_usuario">{{getTranslation('yo_envio_chat')}}: </strong>
+                    <strong class="ms-auto" *ngIf="message.rut_usuario !== rut_usuario">{{getTranslation('cliente_envio_chat')}}: </strong> {{ message.mensaje }}
+
+                </div>
+                <div #ultimoMensaje></div>
+            </div>
+
+            <div class="mt-2">
+                <form (submit)="onSubmit()" class="input-group">
+                    <input type="text" class="form-control" placeholder="{{getTranslation('chat_input_mensaje')}}"
+                        [(ngModel)]="mensaje">
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-chat-right"></i></button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

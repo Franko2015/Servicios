@@ -1,0 +1,56 @@
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-lg">
+            <table class="table table-hover table-bordered">
+                <caption>
+                    <ul class="pagination">
+                        <li class="page-item" style="cursor: pointer;" [class.disabled]="paginaActual === 1">
+                            <a class="page-link" style="cursor: pointer;" (click)="paginaAnterior()">&laquo;</a>
+                        </li>
+                        <li class="page-item" style="cursor: pointer;" *ngFor="let pagina of paginas"
+                            [class.active]="pagina === paginaActual">
+                            <a class="page-link" style="cursor: pointer;" (click)="cambiarPagina(pagina)">{{ pagina
+                                }}</a>
+                        </li>
+                        <li class="page-item" style="cursor: pointer;" [class.disabled]="paginaActual === totalPaginas">
+                            <a class="page-link" style="cursor: pointer;" (click)="paginaSiguiente()">&raquo;</a>
+                        </li>
+                    </ul>
+                    {{getTranslation('listado_usuarios_activos')}}
+                </caption>
+                <thead>
+                    <tr>
+                        <th>
+                            <input [(ngModel)]="txtBuscarRut" class="form-control mb-2" type="text"
+                                placeholder="{{getTranslation('buscar_rut')}}: ">
+                        </th>
+                        <th>
+                            <input [(ngModel)]="txtBuscarUsuario" class="form-control mb-2" type="text"
+                                placeholder="{{getTranslation('buscar_usuario')}}: ">
+                        </th>
+                        <th>
+                            <input [(ngModel)]="txtBuscarNombre" class="form-control mb-2" type="text"
+                                placeholder="{{getTranslation('buscar_usuario')}}: ">
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let i of itemsPaginaActual" class="item-select">
+                        <td>{{i.rut_usuario}}</td>
+                        <td>{{i.usuario}}</td>
+                        <td>{{i.nombre}} {{i.apellido_paterno}} {{i.apellido_materno}}</td>
+                        <td>
+                            <button *ngIf="i.estado_cuenta === 'ACTIVA'" class="btn btn-outline-danger" type="button"
+                                name="{{i.id}}" id="{{i.id}}" (click)="suspender(i)">{{getTranslation('suspender_usuario')}}</button>
+
+                            <button *ngIf="i.estado_cuenta === 'SUSPENDIDA'" class="btn btn-outline-success" type="button"
+                                name="{{i.id}}" id="{{i.id}}" (click)="activar(i)">{{getTranslation('activar_usuario')}}</button>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>

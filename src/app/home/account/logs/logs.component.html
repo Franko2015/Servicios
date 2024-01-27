@@ -1,0 +1,54 @@
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-lg">
+            <table class="table table-hover table-bordered table-responsive">
+                <caption>
+                    <ul class="pagination">
+                        <li class="page-item" style="cursor: pointer;" [class.disabled]="paginaActual === 1">
+                            <a class="page-link" style="cursor: pointer;" (click)="paginaAnterior()">&laquo;</a>
+                        </li>
+                        <li class="page-item" style="cursor: pointer;" *ngFor="let pagina of paginas"
+                            [class.active]="pagina === paginaActual">
+                            <a class="page-link" style="cursor: pointer;" (click)="cambiarPagina(pagina)">{{ pagina
+                                }}</a>
+                        </li>
+                        <li class="page-item" style="cursor: pointer;" [class.disabled]="paginaActual === totalPaginas">
+                            <a class="page-link" style="cursor: pointer;" (click)="paginaSiguiente()">&raquo;</a>
+                        </li>
+                    </ul>
+                    {{getTranslation('nav_dashboard_logs')}}
+                </caption>
+                <thead>
+                    <tr>
+                        <th>
+                            #
+                        </th>
+                        <th>
+                            {{getTranslation('fecha_hora')}}
+                        </th>
+                        <th>
+                            {{getTranslation('peticion')}}
+                        </th>
+                        <th class="input-group">
+                            <input [(ngModel)]="txtBuscarPeticion" class="form-control" type="text"
+                                placeholder="{{getTranslation('buscar_peticion')}}: ">
+                            <button class="btn btn-primary" (click)="ngOnInit()">{{getTranslation('actualizar')}}</button>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let i of itemsPaginaActual" class="item-select">
+                        <td>{{i.id_log}}</td>
+                        <td>{{i.fecha | date : 'dd-MM-yy HH:mm'}}</td>
+                        <td>{{i.descripcion}}</td>
+                        <td>{{i.tipo_log}}</td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+        <div class="d-inline-flex">
+            <a class="text-right" routerLink="/account/dashboard">{{getTranslation('tablero')}}</a>
+        </div>
+    </div>
+</div>

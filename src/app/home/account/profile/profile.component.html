@@ -1,0 +1,67 @@
+<div class="container-fluid mt-4">
+  <p>{{ getTranslation('descripcion_perfil') }}</p>
+  <hr>
+
+  <div class="p-2 rounded-3 mb-4 bg-white" *ngIf="usuario">
+    <form>
+      <div class="d-flex align-items-between">
+        <h4 class="text-start mb-0 me-4">{{ getTranslation('subtitulo_datos_personales_perfil') }}</h4>
+        <button class="btn btn-outline-black bi bi-pencil" type="button" data-bs-toggle="modal"
+          data-bs-target="#personalModal"></button>
+      </div>
+    </form>
+
+    <div class="row g-lg-3">
+      <div class="col-md-4 mb-3">
+        <label for="nombreUsuario" class="form-text">{{ getTranslation('label_nombre') }}: </label>
+        <input type="text" id="nombreUsuario" class="form-control" disabled
+          value="{{ usuario.nombre }} {{ usuario.apellido_paterno }} {{ usuario.apellido_materno }}"
+          (copy)="preventCopy($event)">
+      </div>
+
+      <div class="col-md-2 mb-3">
+        <label for="Rut" class="form-text">{{ getTranslation('label_rut') }}: </label>
+        <input type="text" id="Rut" name="Rut" class="form-control" placeholder="Ejemplo: 123456789-k"
+          value="{{ usuario.rut_usuario }}" disabled (copy)="preventCopy($event)">
+      </div>
+
+      <div class="col-md-3 mb-3">
+        <label for="Nacionalidad" class="form-text">{{ getTranslation('label_nacionalidad') }}: </label>
+        <input type="text" id="Nacionalidad" class="form-control" aria-selected="true"
+          value="{{ usuario.nacionalidad }}" disabled (copy)="preventCopy($event)">
+      </div>
+
+      <div class="col-md-3 mb-3">
+        <label for="Correo" class="form-text">{{ getTranslation('label_correo') }}: </label>
+        <input type="text" id="Correo" class="form-control" name="Correo" value="{{ usuario.correo }}" disabled
+          (copy)="preventCopy($event)">
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+
+
+  <div class="rounded-3 m-4">
+    <div class="row">
+      <div class="d-flex align-items-center">
+
+        <button class="btn btn-warning rounded-3 p-2" type="button" data-bs-toggle="modal"
+          data-bs-target="#paymentModalNew" *ngIf="!resultado">
+          <h5 class="p-2">
+            <i class="bi bi-wallet"></i> {{ getTranslation('solucion_resultado') }}
+          </h5>
+        </button>
+
+        <button class="btn btn-info p-2" type="button" data-bs-toggle="modal"
+          data-bs-target="#paymentModal" *ngIf="resultado">
+          <h5 class="p-2"><i class="bi bi-cash-coin p-2 m-3"></i> {{ getTranslation('agregar_fondos') }} ${{ tarjeta?.monto }}</h5>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-personal></app-personal>
+<app-payment></app-payment>

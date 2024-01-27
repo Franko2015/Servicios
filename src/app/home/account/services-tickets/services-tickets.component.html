@@ -1,0 +1,57 @@
+<div class="container-fluid mt-4">
+    <div class="card"
+      style="position: fixed; bottom: 20px; right: 20px; background-color: #f8f9fa; padding: 10px; border-radius: 5px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
+      <div class="d-flex align-items-center">
+        <span class="me-2">{{getTranslation('subtotal_servicio')}}: $ {{subtotal}}</span>
+        <button (click)="pagarCarrito()" class="btn btn-primary btn-sm">{{getTranslation('btn_realizar_pedido_servicio')}}</button>
+      </div>
+    </div>
+    <p class="lead">{{getTranslation('descripcion_servicios')}}
+    </p>
+    <hr>
+    <div class="row">
+      <div class="col-12">
+        <table class="table table-hover table-bordered">
+          <caption>
+            <ul class="pagination">
+              <li class="page-item" style="cursor: pointer;" [class.disabled]="paginaActual === 1">
+                <a class="page-link" style="cursor: pointer;" (click)="paginaAnterior()">&laquo;</a>
+              </li>
+              <li class="page-item" style="cursor: pointer;" *ngFor="let pagina of paginas"
+                [class.active]="pagina === paginaActual">
+                <a class="page-link" style="cursor: pointer;" (click)="cambiarPagina(pagina)">{{ pagina }}</a>
+              </li>
+              <li class="page-item" style="cursor: pointer;" [class.disabled]="paginaActual === totalPaginas">
+                <a class="page-link" style="cursor: pointer;" (click)="paginaSiguiente()">&raquo;</a>
+              </li>
+            </ul>
+            {{getTranslation('subtitulo_servicos')}}
+          </caption>
+          <thead>
+            <tr>
+              <th>
+                <input [(ngModel)]="txtBuscar" class="form-control mb-2" type="text"
+                  placeholder="{{getTranslation('input_seleccion_problema')}}: ">
+              </th>
+              <th>{{getTranslation('precio_servicio')}}</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let i of itemsPaginaActual" class="item-select">
+              <td>{{i.problema}}</td>
+              <td>$ {{i.precio}}</td>
+              <td>
+                <input class="form-check-inline" type="checkbox" name="{{i.id}}" id="{{i.id}}"
+                  (change)="agregarCarrito(i)" [checked]="isChecked(i)">
+              </td>
+            </tr>
+          </tbody>
+
+        </table>
+      </div>
+      <div class="d-inline-flex">
+        <a class="text-right" routerLink="/home">{{getTranslation('pregunta_agregar_servicio')}}</a>
+      </div>
+    </div>
+  </div>

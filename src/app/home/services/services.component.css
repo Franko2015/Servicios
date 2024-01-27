@@ -1,0 +1,19 @@
+
+.custom-card {
+    background-color: #4e4d4d2c;
+    color: rgb(255, 255, 255);
+    transition: background-color 1s ease, color 2s ease;
+  }
+  
+  .custom-card:hover {
+    background-color: #1a2d5b;
+    color: #ffffff;
+  }
+  
+  img {
+    width: 100%;
+  }
+  
+  .custom-card-footer {
+    text-align: center;
+  }

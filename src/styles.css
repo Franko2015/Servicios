@@ -1,0 +1,55 @@
+@import 'ngx-toastr/toastr';
+
+:root {
+  color-scheme: light;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%; /* Ajusta el cuerpo para ocupar toda la altura disponible */
+  width: 100%;
+}
+
+body {
+  font-family: "Roboto", "Helvetica Neue", sans-serif;
+  overflow-x: hidden;
+}
+
+li {
+  list-style: none;
+}
+
+.navbar-bg {
+  background-color: #1f2636;
+}
+
+.bg-transparent {
+  background-color: rgba(255, 255, 255, 0);
+}
+
+.btn > .btn-facebook {
+  background-color: #3b5998;
+}
+
+.fondo {
+  margin: 0;
+  height: 100vh;
+  width: 100%;
+  background-image: linear-gradient(to top, #1e3c72 0%, #1e3c72 1%, #2a5298 100%);
+}
+
+@media only screen and (max-width: 768px) {
+  .fondo {
+    height: auto; /* Ajusta la altura automáticamente en dispositivos móviles */
+  }
+
+  footer {
+    bottom: 10px;
+  }
+
+  body.show-footer footer {
+    display: block;
+  }
+}

@@ -1,0 +1,155 @@
+<div class="container-fluid mt-4">
+  <div class="row">
+    <div class="col-lg">
+
+      <button class="btn btn-primary m-2" type="button" data-bs-toggle="modal" data-bs-target="#newTechnician">
+        {{getTranslation('add_tecnico')}}
+      </button>
+      <button class="btn btn-primary m-2" type="button" data-bs-toggle="modal" data-bs-target="#newHabilities">
+        {{getTranslation('add_habilidad')}}
+      </button>
+      <table class="table table-hover table-bordered table-responsive">
+        <caption>
+          <ul class="pagination">
+            <li class="page-item" style="cursor: pointer;" [class.disabled]="paginaActual === 1">
+              <a class="page-link" style="cursor: pointer;" (click)="paginaAnterior()">&laquo;</a>
+            </li>
+            <li class="page-item" style="cursor: pointer;" *ngFor="let pagina of paginas"
+              [class.active]="pagina === paginaActual">
+              <a class="page-link" style="cursor: pointer;" (click)="cambiarPagina(pagina)">{{ pagina
+                }}</a>
+            </li>
+            <li class="page-item" style="cursor: pointer;" [class.disabled]="paginaActual === totalPaginas">
+              <a class="page-link" style="cursor: pointer;" (click)="paginaSiguiente()">&raquo;</a>
+            </li>
+          </ul>
+          {{getTranslation('tecnicos_disponibles')}}
+        </caption>
+        <thead>
+          <tr>
+            <th>
+              <input [(ngModel)]="txtBuscarRut" class="form-control mb-2" type="text"
+                placeholder="{{getTranslation('buscar_rut')}}:">
+            </th>
+            <th>
+              <input [(ngModel)]="txtBuscarNombre" class="form-control mb-2" type="text"
+                placeholder="{{getTranslation('buscar_usuario')}}:">
+            </th>
+            <th>
+              {{getTranslation('habilidades')}}
+            </th>
+            <th>
+              {{getTranslation('puntuacion_habilidad')}}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let i of itemsPaginaActual" class="item-select">
+            <td>{{i.rut_usuario}}</td>
+            <td>{{i.nombre}} {{i.apellido_paterno}} {{i.apellido_materno}}</td>
+            <td>{{i.habilidad}} - {{i.descripcion_habilidad}}</td>
+            <td>{{i.puntuacion_habilidad}}</td>
+            <td>
+              <button class="btn btn-danger me-2" type="button" (click)="eliminarHabilidad(i.rut_usuario, i.habilidad)">
+                {{getTranslation('del_habilidad')}}
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+  <div class="modal modal-xl fade" tabindex="-1" id="newHabilities">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title text-uppercase">
+            {{ getTranslation('titulo_nueva_habilidad') }}
+          </h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <!-- Modal Body -->
+        <div class="modal-body">
+          <form>
+            <div class="mb-3 row justify-content-end">
+              <label for="rut_tecnico" class="col-sm-3 col-form-label">{{getTranslation('label_rut')}}:</label>
+              <div class="col-sm-9">
+                <select class="form-select" id="rut_usuario" name="rut_usuario" [(ngModel)]="selectedTecnico">
+                  <option *ngFor="let user of tecnicos" [value]="user.rut_usuario">
+                    {{ user.rut_usuario }}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="mb-3 row justify-content-end">
+              <label for="habilidad" class="col-sm-3 col-form-label">{{getTranslation('add_habilidad')}}:</label>
+              <div class="col-sm-9">
+                <input class="form-control" type="text" name="habilidad" id="habilidad" [(ngModel)]="txtHabilidad">
+              </div>
+            </div>
+
+            <div class="mb-3 row justify-content-end">
+              <label for="descripcion_habilidad" class="col-sm-3 col-form-label">{{getTranslation('add_descripcion')}}:</label>
+              <div class="col-sm-9">
+                <textarea class="form-control" type="text-aria" name="descripcion_habilidad" id="descripcion_habilidad"
+                  [(ngModel)]="txtDescripcionHabilidad" rows="3"></textarea>
+              </div>
+            </div>
+
+            <div class="mb-3 row justify-content-end">
+              <label for="puntuacion" class="col-sm-3 col-form-label">{{getTranslation('puntuacion_habilidad')}}:</label>
+              <div class="col-sm-9">
+                <input class="form-control" type="number" name="puntuacion" id="puntuacion" [(ngModel)]="txtPuntuacion">
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-end">
+              <button type="submit" class="btn btn-outline-primary" (click)="nuevaHabilidad()">
+                {{getTranslation('add_one_habilidad')}}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal fade" tabindex="-1" id="newTechnician">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title text-uppercase">
+            {{ getTranslation('titulo_nuevo_tecnico') }}
+          </h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <!-- Modal Body -->
+        <div class="modal-body">
+          <div class="mb-3 row justify-content-end">
+            <label for="rut_usuario" class="col-sm-3 col-form-label">Usuario:</label>
+            <div class="col-sm-9">
+              <select class="form-select" id="rut_usuario" name="rut_usuario" [(ngModel)]="selectedUser">
+                <option *ngFor="let user of usuarios" [value]="user.rut_usuario">
+                  {{ user.rut_usuario }} - {{ user.usuario }} - {{ user.fecha_creacion | date:'dd/MM/yy' }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-outline-primary" (click)="addTecnico()">
+              Agregar técnico
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

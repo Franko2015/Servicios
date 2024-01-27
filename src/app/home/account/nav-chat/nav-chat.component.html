@@ -1,0 +1,27 @@
+<div class="container">
+    <strong class="text-center mb-2">{{getTranslation('nav_subtitulo_chat')}}</strong>
+
+    <!-- En tu plantilla HTML -->
+    <div class="chat-container">
+        <strong class="mb-2 d-flex border-rounded-2 text-center bg-primary text-white ps-4">
+            {{getTranslation('chat_hoy')}}: {{
+            ultimaFecha | date :
+            'dd-MM-yyyy' }}</strong>
+        <div *ngFor="let message of chatUsuario.slice(-15)" class="mb-1 ps-2">
+            <small class="text-muted">{{ message.fecha_envio | date : 'HH:mm:ss' }}</small>
+            <strong *ngIf="!message.rut_usuario" [ngClass]="{'text-end': !message.rut_usuario, 'text-start': message.rut_usuario}">{{ getTranslation('yo_envio_chat') }}:</strong>
+            <strong *ngIf="message.rut_usuario" [ngClass]="{'text-end': !message.rut_usuario, 'text-start': message.rut_usuario}">{{ getTranslation('sistema_envio_chat') }}:</strong>
+            {{ message.mensaje }}
+        </div>
+        <div #ultimoMensaje></div>
+    </div>
+
+    <div class="mt-3">
+        <form (submit)="onSubmit()" class="input-group">
+            <input type="text" class="form-control" placeholder="{{getTranslation('chat_input_mensaje')}}"
+                [(ngModel)]="mensaje">
+            <button type="submit" class="btn btn-primary" [disabled]="!mensaje || !validarMensaje()"><i class="bi bi-chat-right"></i></button>
+        </form>
+    </div>
+
+</div>

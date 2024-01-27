@@ -1,0 +1,126 @@
+<div class="modal" tabindex="-1" id="loginModal">
+  <div class="modal-dialog" *ngIf="!nuevo" role="document">
+    <div class="modal-content text-center">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="text-uppercase">
+          {{ getTranslation('titulo_fomulario_sesion') }}
+        </h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body text-body">
+        <form (submit)="onSubmit()">
+          <div class="row">
+            <div class="col-12">
+              <p class="mb-3" [ngClass]="{'d-block text-danger': validacion != 'Ingrese a su cuenta'}"
+                *ngIf="validacion">
+                {{validacion}}</p>
+              <div class="col-12">
+                <div class="mb-3">
+                  <input type="text" id="loginName" class="form-control" [(ngModel)]="username" name="username" required
+                    placeholder="Usuario" autocomplete="off" />
+                </div>
+                <div class="mb-3">
+                  <input type="password" id="loginPassword" class="form-control" [(ngModel)]="password" name="password"
+                    required placeholder="Contraseña" autocomplete="off" />
+                </div>
+              </div>
+              <div class="justify-content-between mb-3">
+                <button type="submit" class="btn btn-outline-primary mx-2" data-bs-dismiss="modal">
+                  Ingresar
+                </button>
+                <button type="button" class="btn btn-primary mx-2" (click)="nuevo=true">
+                  Nuevo usuario
+                </button>
+              </div>
+              <p class="small mb-3">
+                <a routerLink="/recovery-password" data-bs-dismiss="modal">¿Olvidó su contraseña?</a>
+              </p>
+            </div>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="modal-dialog" *ngIf="nuevo">
+    <div class="modal-content text-center">
+      <div class="modal-header">
+        <h4 class="text-uppercase">
+          {{ getTranslation('titulo_fomulario_sesion') }}
+        </h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body text-body">
+        <form (submit)="onSubmit()">
+          <div class="row">
+            <div class="col-12">
+              <p class="mb-3"
+                [ngClass]="{'d-block text-danger': validacionNuevo != 'Ingrese sus datos para registrarse'}"
+                *ngIf="validacionNuevo">{{ validacionNuevo }}</p>
+            </div>
+            <div class="col-6">
+              <div class="mb-3">
+                <input type="text" id="rut_usuarioNuevo" class="form-control" [(ngModel)]="rut_usuarioNuevo"
+                  name="rut_usuarioNuevo" required placeholder="Rut (Ej: 12123456-K)" autocomplete="off" />
+              </div>
+              <div class="mb-3">
+                <input type="text" id="usuarioNuevo" class="form-control" [(ngModel)]="usuarioNuevo" name="usuarioNuevo"
+                  required placeholder="Usuario" autocomplete="off" />
+              </div>
+              <div class="mb-3">
+                <input type="password" id="passwordNuevo" class="form-control" [(ngModel)]="passwordNuevo"
+                  name="passwordNuevo" required placeholder="Contraseña" autocomplete="off" />
+              </div>
+              <div class="mb-3">
+                <input type="password" id="passwordNuevoMisma" class="form-control" [(ngModel)]="passwordNuevoMisma"
+                  name="passwordNuevoMisma" required placeholder="Confirmar Contraseña" autocomplete="off" />
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="mb-3">
+                <input type="text" id="nombreNuevo" class="form-control" [(ngModel)]="nombreNuevo" name="nombreNuevo"
+                  required placeholder="Nombres" autocomplete="off" />
+              </div>
+              <div class="mb-3">
+                <input type="text" id="ape_paternoNuevo" class="form-control" [(ngModel)]="ape_paternoNuevo"
+                  name="ape_paternoNuevo" required placeholder="Apellido paterno" autocomplete="off" />
+              </div>
+              <div class="mb-3">
+                <input type="text" id="ape_maternoNuevo" class="form-control" [(ngModel)]="ape_maternoNuevo"
+                  name="ape_maternoNuevo" required placeholder="Apellido materno" autocomplete="off" />
+              </div>
+              <div class="mb-3">
+                <select id="Nacionalidad" name="nacionalidad" class="form-control" [(ngModel)]="nacionalidad">
+                  <option value="" disabled selected hidden>Nacionalidad</option>
+                  <option *ngFor="let pais of paises" [value]="pais.name.common">{{ pais.name.common }}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="mb-3">
+                <input type="email" id="correoNuevo" class="form-control" [(ngModel)]="correoNuevo" name="correoNuevo"
+                  required placeholder="Correo" autocomplete="off" />
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-outline-primary mx-2" data-bs-dismiss="modal">
+              Registrar
+            </button>
+            <button type="submit" class="btn btn-primary mx-2" (click)="nuevo=false">
+              Ingresar
+            </button>
+          </div>
+
+          <p class="small mt-4">
+            <a routerLink="/administracion/usuarios/recuperar">¿Olvidó su contraseña?</a>
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</div>

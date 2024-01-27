@@ -1,0 +1,70 @@
+<div class="container-fluid mt-4">
+  <div class="row justify-content-between">
+    <div class="card col-lg shadow m-3">
+      <div class="card-img d-flex p-2">
+        <i class="fa-regular fa-comments mx-auto text-black" style="font-size: 5rem"></i>
+      </div>
+      <div class="card-footer">
+        <a [routerLink]="['/account/chat']" class="btn btn-outline-primary d-block">
+          {{getTranslation('nav_dashboard_chat')}}
+        </a>
+      </div>
+    </div>
+    <div class="card col-lg shadow m-3">
+      <div class="card-img d-flex p-2">
+        <i class="fa-solid fa-users mx-auto text-black" style="font-size: 5rem"></i>
+      </div>
+      <div class="card-footer">
+        <a [routerLink]="['/account/users']" class="btn btn-outline-primary d-block">
+          {{getTranslation('nav_dashboard_usuarios')}}
+        </a>
+      </div>
+    </div>
+    <div class="card col-lg shadow m-3">
+      <div class="card-img d-flex p-2">
+        <i class="fa-solid fa-phone mx-auto text-black" style="font-size: 5rem"></i>
+      </div>
+      <div class="card-footer">
+        <a [routerLink]="['/account/tickets']" class="btn btn-outline-primary d-block">
+          {{getTranslation('nav_dashboard_tickets')}}
+        </a>
+      </div>
+    </div>
+    <div class="card col-lg shadow m-3">
+      <div class="card-img d-flex p-2">
+        <i class="fa-regular fa-address-book mx-auto text-black" style="font-size: 5rem"></i>
+      </div>
+      <div class="card-footer">
+        <a [routerLink]="['/account/technical']" class="btn btn-outline-primary d-block">
+          {{getTranslation('nav_dashboard_tecnicos')}}
+        </a>
+      </div>
+    </div>
+    <div class="card col-lg shadow m-3" *ngIf="SOPORTE">
+      <div class="card-img d-flex p-2">
+        <i class="fa-sharp fa-solid fa-gear mx-auto text-black" style="font-size: 5rem"></i>
+      </div>
+      <div class="card-footer">
+        <a [routerLink]="['/account/logs']" class="btn btn-outline-primary d-block">
+          {{getTranslation('nav_dashboard_logs')}}
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="row m-4 justify-content-between">
+    <button (click)="generarPDF()" class="btn btn-primary">
+      {{getTranslation('descargar_pdf')}}
+    </button>
+
+    <div class="card col-lg shadow m-3" #chart id="chart">
+      <div class="card-body">
+        <div class="d-block">
+          <ngx-charts-bar-vertical [animations]="true" [results]="chartData" [xAxis]="true" [yAxis]="true"
+            [legend]="true" [showXAxisLabel]="true" [showYAxisLabel]="true" legendTitle="Fechas" xAxisLabel="Días"
+            yAxisLabel="Cantidad de Tickets">
+          </ngx-charts-bar-vertical>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

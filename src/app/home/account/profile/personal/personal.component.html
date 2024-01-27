@@ -1,0 +1,60 @@
+<div class="fade modal" id="personalModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="text-uppercase">
+          {{getTranslation('edita_datos_perfil')}}
+        </h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body text-body">
+        <form (submit)="onSubmit()">
+          <p class="mb-3 text-center">{{getTranslation('subtitulo_datos_personales_perfil')}}</p>
+
+          <div class="row" *ngIf="usuario">
+
+            <div class="col-lg-4 mb-3">
+              <label for="usuarioNuevo" class="form-text">{{getTranslation('usuario')}}</label>
+            </div>
+            <div class="col-lg-8 mb-3">
+              <input type="text" id="usuarioNuevo" name="usuarioNuevo" class="form-control" value="{{usuario.nombre}}"
+                (copy)="preventCopy($event)" [(ngModel)]="usuarioNuevo"/>
+            </div>
+
+            <div class="col-lg-4 mb-3">
+              <label for="Rut" class="form-text">Rut</label>
+            </div>
+            <div class="col-lg-8 mb-3">
+              <input type="text" id="rut_usuario" name="rut_usuario" class="form-control" placeholder="Ejemplo: 123456789-k"
+                value="{{usuario.rut_usuario}}" disabled (copy)="preventCopy($event)"/>
+            </div>
+
+            <div class="col-lg-4 mb-3">
+              <label for="Nacionalidad" class="form-text">{{getTranslation('nacionalidad')}}</label>
+            </div>
+            <div class="col-lg-8 mb-3">
+              <select id="Nacionalidad" name="nacionalidad" class="form-select" [(ngModel)]="nacionalidad" required>
+                <option value="{{usuario.nacionalidad}}" disabled selected hidden>{{usuario.nacionalidad}}</option>
+                <option *ngFor="let pais of paises" [value]="pais.name.common">{{ pais.name.common }}</option>
+              </select>
+            </div>
+
+            <div class="col-lg-4 mb-3">
+              <label for="Correo" class="form-text">{{getTranslation('correo')}}</label>
+            </div>
+            <div class="col-lg-8 mb-3">
+              <input type="text" id="Correo" name="correo" class="form-control" value="{{usuario.correo}}"
+                (copy)="preventCopy($event)" [(ngModel)]="correo" required/>
+            </div>
+          </div>
+
+
+          <button type="submit" class="btn btn-success btn-block mb-4">
+            Guardar cambios
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,47 @@
+<div class="container-fluid mt-4">
+  <div class="row">
+    <div class="col-12">
+      <table class="table table-hover table-bordered table-sm">
+        <caption>
+          <ul class="pagination">
+            <li class="page-item" style="cursor: pointer;" [class.disabled]="paginaActual === 1">
+              <a class="page-link" style="cursor: pointer;" (click)="paginaAnterior()">&laquo;</a>
+            </li>
+            <li class="page-item" style="cursor: pointer;" *ngFor="let pagina of paginas"
+              [class.active]="pagina === paginaActual">
+              <a class="page-link" style="cursor: pointer;" (click)="cambiarPagina(pagina)">{{ pagina }}</a>
+            </li>
+            <li class="page-item" style="cursor: pointer;" [class.disabled]="paginaActual === totalPaginas">
+              <a class="page-link" style="cursor: pointer;" (click)="paginaSiguiente()">&raquo;</a>
+            </li>
+          </ul>
+          Tickets
+        </caption>
+        <thead class="table-dark">
+          <tr>
+            <th>{{getTranslation('n_ticket_historial')}}</th>
+            <th>{{getTranslation('f_creacion_historial')}}</th>
+            <th>{{getTranslation('tecnico_asignado_historial')}}</th>
+            <th>Descripción</th>
+            <th class="text-center">
+              <button class="btn btn-outline-primary" title="Recarga la página" (click)="ngAfterViewInit()">
+                <i class="bi bi-arrow-clockwise"></i>
+              </button>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let i of itemsPaginaActual" class="page-item">
+            <td>{{ i.id_detalle }}</td>
+            <td>{{ i.fecha_creacion | date : 'dd-MM-yy HH:mm' }}</td>
+            <td *ngIf="i.nombre_tecnico!=''">{{ i.nombre_tecnico ? i.nombre_tecnico + ' ' + i.apellido_paterno_tecnico : getTranslation('nuevo_ticket') }}</td>
+            <td>{{ i.descripcion }}</td>
+            <td class="text-center" *ngIf="TECNICO">
+              <button class="btn btn-outline-success" (click)="asignar(i)">{{getTranslation('asignar_ticket')}}</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

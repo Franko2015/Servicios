@@ -1,0 +1,144 @@
+<nav class="navbar navbar-expand-lg navbar-bg text-white">
+  <div class="container-fluid">
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navtop"
+      aria-controls="navtop" aria-expanded="false" aria-label="Toggle navigation">
+      <i class="fas fa-bars text-white"></i>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navtop">
+      <ul class="navbar-nav flex-column flex-sm-row align-items-start align-items-sm-center me-auto mb-2 mb-lg-0">
+        <li class="nav-item dropdown">
+          <a class="btn dropdown-toggle icon-link-hover rounded-2" id="navbarDropdown" role="button"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="{{ bandera }}"></i>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li *ngIf="storedLanguage != 'en'">
+              <a (click)="switchLang('en')" class="dropdown-item icon-link-hover">
+                <i class="flag-icon flag-icon-us flag me-3"></i>
+                English
+                <i *ngIf="storedLanguage == 'en'" class="fa fa-check text-success ms-2"></i>
+              </a>
+            </li>
+            <li *ngIf="storedLanguage != 'pl'">
+              <a (click)="switchLang('pl')" class="dropdown-item icon-link-hover">
+                <i class="flag-icon flag-icon-pl flag me-3"></i>
+                Polski
+                <i *ngIf="storedLanguage == 'pl'" class="fa fa-check text-success ms-2"></i>
+              </a>
+            </li>
+            <li *ngIf="storedLanguage != 'zh'">
+              <a (click)="switchLang('zh')" class="dropdown-item icon-link-hover">
+                <i class="flag-icon flag-icon-cn flag me-3"></i>
+                中文
+                <i *ngIf="storedLanguage == 'zh'" class="fa fa-check text-success ms-2"></i>
+              </a>
+            </li>
+            <li *ngIf="storedLanguage != 'ja'">
+              <a (click)="switchLang('ja')" class="dropdown-item icon-link-hover">
+                <i class="flag-icon flag-icon-jp flag me-3"></i>
+                日本語
+                <i *ngIf="storedLanguage == 'ja'" class="fa fa-check text-success ms-2"></i>
+              </a>
+            </li>
+            <li *ngIf="storedLanguage != 'de'">
+              <a (click)="switchLang('de')" class="dropdown-item icon-link-hover">
+                <i class="flag-icon flag-icon-de flag me-3"></i>
+                Deutsch
+                <i *ngIf="storedLanguage == 'de'" class="fa fa-check text-success ms-2"></i>
+              </a>
+            </li>
+            <li *ngIf="storedLanguage != 'fr'">
+              <a (click)="switchLang('fr')" class="dropdown-item icon-link-hover">
+                <i class="flag-icon flag-icon-fr flag me-3"></i>
+                Français
+                <i *ngIf="storedLanguage == 'fr'" class="fa fa-check text-success ms-2"></i>
+              </a>
+            </li>
+            <li *ngIf="storedLanguage != 'es'">
+              <a (click)="switchLang('es')" class="dropdown-item icon-link-hover">
+                <i class="flag-icon flag-icon-es flag me-3"></i>
+                Español
+                <i *ngIf="storedLanguage == 'es'" class="fa fa-check text-success ms-2"></i>
+              </a>
+            </li>
+            <li *ngIf="storedLanguage != 'ru'">
+              <a (click)="switchLang('ru')" class="dropdown-item icon-link-hover">
+                <i class="flag-icon flag-icon-rs flag me-3"></i>
+                Русский
+                <i *ngIf="storedLanguage == 'ru'" class="fa fa-check text-success ms-2"></i>
+              </a>
+            </li>
+            <li *ngIf="storedLanguage != 'pt'">
+              <a (click)="switchLang('pt')" class="dropdown-item icon-link-hover">
+                <i class="flag-icon flag-icon-pt flag me-3"></i>
+                Português
+                <i *ngIf="storedLanguage == 'pt'" class="fa fa-check text-success ms-2"></i>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <div class="col" *ngIf="this.isLogged && this.tipo == 'TECNICO' || this.tipo == 'SOPORTE'">
+          <ul class="d-flex justify-content-between btn-group" data-toggle="group">
+            <button type="button" [ngClass]="{
+                  'btn-secondary': isRouteActive('/account/dashboard'),
+                  'btn-primary': !isRouteActive('/account/dashboard')
+                }" class="btn" routerLink="/account/dashboard">
+              {{getTranslation('nav_perfil_menu')}}
+            </button>
+            <button type="button" [ngClass]="{
+                  'btn-secondary': isRouteActive('/account/chat'),
+                  'btn-primary': !isRouteActive('/account/chat')
+                }" class="btn" routerLink="/account/chat" routerLinkActive="active">
+              {{getTranslation('nav_titulo_chat')}}
+            </button>
+            <button type="button" [ngClass]="{
+                  'btn-secondary': isRouteActive('/account/users'),
+                  'btn-primary': !isRouteActive('/account/users')
+                }" class="btn" routerLink="/account/users" routerLinkActive="active">
+              {{getTranslation('nav_perfil_usuarios')}}
+            </button>
+            <button type="button" [ngClass]="{
+                  'btn-secondary': isRouteActive('/account/tickets'),
+                  'btn-primary': !isRouteActive('/account/tickets')
+                }" class="btn" routerLink="/account/tickets" routerLinkActive="active">
+              {{getTranslation('nav_perfil_tickets')}}
+            </button>
+            <button type="button" [ngClass]="{
+                  'btn-secondary': isRouteActive('/account/technical'),
+                  'btn-primary': !isRouteActive('/account/technical')
+                }" class="btn" routerLink="/account/technical" routerLinkActive="active">
+              {{getTranslation('nav_dashboard_tecnicos')}}
+            </button>
+            <button type="button" [ngClass]="{
+              'btn-secondary': isRouteActive('/account/logs'),
+              'btn-primary': !isRouteActive('/account/logs')
+            }" class="btn" routerLink="/account/logs" routerLinkActive="active">
+              {{getTranslation('nav_dashboard_logs')}}
+            </button>
+          </ul>
+
+        </div>
+      </ul>
+
+
+      <div class="d-flex justify-content-end btn-group" data-toggle="group">
+        <button type="button" *ngIf="this.isLogged" [ngClass]="{
+          'btn-secondary': isRouteActive('/account/profile'),
+          'btn-primary': !isRouteActive('/account/profile')
+        }" class="btn" routerLink="/account/profile">
+          {{getTranslation('nav_perfil_perfil')}}: {{nombre}}
+        </button>
+        <button *ngIf="!isLogged" class="btn btn-primary" type="button" data-bs-toggle="modal"
+          data-bs-target="#loginModal">
+          {{ getTranslation("nav_principal_inicio_login") }}
+        </button>
+        <button *ngIf="isLogged" (click)="logOut()" class="btn btn-outline-danger me-2" type="button">
+          {{ getTranslation("nav_principal_inicio_logout") }}
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+<app-login></app-login>
