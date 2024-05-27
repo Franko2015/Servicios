@@ -104,7 +104,6 @@ export class LoginComponent {
         rut: this.rut_usuarioNuevo,
         usuario: this.usuarioNuevo,
         nacionalidad: this.nacionalidad,
-        estado_cuenta: "ACTIVA",
         tipo_cuenta: "CLIENTE"
       };
 

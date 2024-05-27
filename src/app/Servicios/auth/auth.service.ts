@@ -10,7 +10,6 @@ import { environment } from '../../../environment/environment';
 export class AuthService {
 
   private _url = `${environment.endpoint}/login`
-  // private _url = `http://52.20.204.127:4000/api/login`
 
   private header = new HttpHeaders({ 'Content-Type': 'application/json' });
 

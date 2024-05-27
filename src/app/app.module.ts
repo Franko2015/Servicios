@@ -24,9 +24,6 @@ import { AccountComponent } from './home/account/account.component';
 import { ErrorComponent } from './error/error.component';
 import { HistoryComponent } from './home/account/history/history.component';
 import { NavChatComponent } from './home/account/nav-chat/nav-chat.component';
-import { PaymentComponent } from './home/account/profile/payment/payment.component';
-import { PersonalComponent } from './home/account/profile/personal/personal.component';
-import { ProfileComponent } from './home/account/profile/profile.component';
 import { ServicesTicketsComponent } from './home/account/services-tickets/services-tickets.component';
 import { TicketComponent } from './home/account/ticket/ticket.component';
 import { UsersComponent } from './home/account/users/users.component';
@@ -62,7 +59,7 @@ import { CommonModule } from '@angular/common';
     LogsComponent,
     TechnicalComponent,
     RecoveryPasswordComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
   ],
   imports: [
     BrowserModule,

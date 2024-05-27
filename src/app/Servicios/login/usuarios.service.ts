@@ -48,6 +48,5 @@ export interface Usuario {
   usuario: string;
   contrasena: string;
   nacionalidad: string;
-  estado_cuenta: string;
   tipo_cuenta: string;
 }

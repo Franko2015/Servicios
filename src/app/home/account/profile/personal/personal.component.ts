@@ -66,7 +66,6 @@ export class PersonalComponent implements OnInit {
       correo: this.correo,
       nacionalidad: this.nacionalidad,
       tipo_cuenta: this.usuario.tipo_cuenta,
-      estado_cuenta: this.usuario.estado_cuenta,
     };
     this.usuarioService.edit(usuario).subscribe({
       next: (data: any) => {

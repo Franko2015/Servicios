@@ -1,91 +1,107 @@
-DROP DATABASE IF EXISTS Solutio;
-CREATE SCHEMA IF NOT EXISTS Solutio;
-USE Solutio;
+DROP DATABASE IF EXISTS solutio;
+CREATE SCHEMA IF NOT EXISTS solutio;
+USE solutio;
 
 /*  Registra todo usuario que vaya a entrar al sistema  */
-CREATE TABLE IF NOT EXISTS tblUsuario (
-    rut_usuario varchar(12) primary key unique,
-    nombre varchar(45),
-    apellido_paterno varchar(45),
-    apellido_materno varchar(45),
-    correo varchar(100) unique,
-    usuario varchar(20) unique,
-    contrasena char(100),
-    nacionalidad varchar(30),
-    estado_cuenta varchar(15),
-    tipo_cuenta varchar(20),
-    token varchar(200) unique,
-    fecha_creacion timestamp DEFAULT CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS system_users (
+	id_user INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    rut_user VARCHAR(12) UNIQUE,
+    full_name VARCHAR(100),
+    email VARCHAR(100) UNIQUE NOT NULL,
+    username VARCHAR(20) UNIQUE NOT NULL,
+    passwd CHAR(100) NOT NULL,
+    nationality VARCHAR(30),
+    account_status VARCHAR(15) NOT NULL,
+    account_type VARCHAR(20) NOT NULL,
+    token VARCHAR(200) UNIQUE,
+    creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 /*  Describe el perfil del técnico  */
-CREATE TABLE IF NOT EXISTS tblTecnico (
-    rut_usuario varchar(12),
-    habilidad varchar(100),
-    descripcion_habilidad varchar(100),
-    puntuacion_habilidad float,
-    CONSTRAINT fk_rut_tecnico FOREIGN KEY (rut_usuario) REFERENCES tblUsuario(rut_usuario)
+CREATE TABLE IF NOT EXISTS system_technical (
+	id_user INT PRIMARY KEY UNIQUE AUTO_INCREMENT,
+    rut_user VARCHAR(12) UNIQUE,
+    skill VARCHAR(100) NOT NULL,
+    skill_description VARCHAR(100) NOT NULL,
+    skill_rating FLOAT,
+    CONSTRAINT fk_technician_rut FOREIGN KEY (rut_user)
+        REFERENCES system_users (rut_user)
 );
 
-CREATE TABLE IF NOT EXISTS tblChat (
-    id_chat INT AUTO_INCREMENT PRIMARY KEY,
-    rut_cliente varchar(12),
-    rut_usuario varchar(12),
-    mensaje text,
-    fecha_envio timestamp DEFAULT CURRENT_TIMESTAMP,
-    leido boolean DEFAULT false,
-	CONSTRAINT fk_rut_usuario FOREIGN KEY (rut_usuario) REFERENCES tblUsuario(rut_usuario),
-    CONSTRAINT fk_rut_cliente FOREIGN KEY (rut_cliente) REFERENCES tblUsuario(rut_usuario)
+CREATE TABLE IF NOT EXISTS system_chat (
+    chat_id INT AUTO_INCREMENT PRIMARY KEY,
+    client_id INT NOT NULL,
+    id_user INT NOT NULL,
+    message TEXT NOT NULL,
+    send_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    readed BOOLEAN DEFAULT FALSE,
+    CONSTRAINT fk_user_id FOREIGN KEY (id_user)
+        REFERENCES system_users (id_user),
+    CONSTRAINT fk_client_id FOREIGN KEY (client_id)
+        REFERENCES system_users (id_user)
 );
 
-/*  Ticket creado por el usuario  */
-CREATE TABLE IF NOT EXISTS tblTicket (
-	id_detalle int primary key auto_increment,
-    id_ticket int,
-    rut_usuario varchar(12),
-    descripcion varchar(2000),
-    valor_trabajo int,
-    pagado varchar(15),
-    fecha_creacion timestamp DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_rut_orden_usuario FOREIGN KEY (rut_usuario) REFERENCES tblUsuario(rut_usuario)
+/*  Ticket created by the user  */
+CREATE TABLE IF NOT EXISTS system_tickets (
+    detail_ticket_id INT PRIMARY KEY AUTO_INCREMENT,
+    ticket_id INT,
+    id_user INT,
+    description VARCHAR(2000),
+    work_value INT,
+    paid BOOLEAN,
+    creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_user_order_id FOREIGN KEY (id_user)
+        REFERENCES system_users (id_user)
 );
 
-/*  Historial de peticiones a la BD  */
-CREATE TABLE IF NOT EXISTS tblLog (
-    id_log int primary key auto_increment,
-    tipo_log varchar(50),
-    fecha datetime,
-    descripcion varchar(2000)
+/*  History of requests to the DB  */
+CREATE TABLE IF NOT EXISTS system_logs (
+    log_id INT PRIMARY KEY AUTO_INCREMENT,
+    log_type VARCHAR(50),
+    full_date DATETIME,
+    description VARCHAR(2000)
 );
 
-/*  Se asigna un técnico para la solución del cliente  */
-CREATE TABLE IF NOT EXISTS tblAsigna_ticket (
-    id int primary key auto_increment,
-    id_detalle int,
-    rut_tecnico varchar(12),
-    CONSTRAINT fk_rut_tecnico_orden_usuario FOREIGN KEY (rut_tecnico) REFERENCES tblUsuario(rut_usuario),
-    CONSTRAINT fk_id_orden_orden_usuario FOREIGN KEY (id_detalle) REFERENCES tblTicket(id_detalle)
+/*  A technician is assigned to solve the client's issue  */
+CREATE TABLE IF NOT EXISTS system_tickets_assigned (
+    ticket_id INT PRIMARY KEY AUTO_INCREMENT,
+    detail_ticket_id INT,
+    technician_id INT,
+    CONSTRAINT fk_technician_order_id FOREIGN KEY (technician_id)
+        REFERENCES system_users (id_user),
+    CONSTRAINT fk_order_id_order_id FOREIGN KEY (detail_ticket_id)
+        REFERENCES system_tickets (detail_ticket_id)
 );
 
-/*  Tarjeta del usuario con la que va a pagar  */
-CREATE TABLE IF NOT EXISTS tblCartera_cliente (
-    id_cuenta int primary key auto_increment,
-    rut_usuario varchar(12) unique,
-    monto int,
-    CONSTRAINT fk_rut_usuario_cartera FOREIGN KEY (rut_usuario) REFERENCES tblUsuario(rut_usuario)
+/*  User's card to pay with  */
+CREATE TABLE IF NOT EXISTS system_wallet (
+    account_id INT PRIMARY KEY AUTO_INCREMENT,
+    id_user INT UNIQUE,
+    amount INT,
+    CONSTRAINT fk_user_wallet_id FOREIGN KEY (id_user)
+        REFERENCES system_users (id_user)
 );
 
--- use solutio;
-SELECT * FROM tblCartera_cliente;
-SELECT * FROM tblAsigna_ticket;
-SELECT * FROM tblLog;
-SELECT * FROM tblTicket;
-SELECT * FROM tblTecnico;
-SELECT * FROM tblUsuario;
-SELECT * FROM tblChat;
 
 -- Insertar datos en tblUsuario
-INSERT INTO tblUsuario (rut_usuario, nombre, correo, usuario, contrasena, nacionalidad, estado_cuenta, tipo_cuenta) 
+/* soporte {
+	nombre: soporte
+    contraseña: administracion123
+}  tecnico {
+    nombre: tecnico
+    contraseña: tecnico
+}
+*/
+
+INSERT INTO system_users (rut_user, full_name, email, username, passwd, nationality, account_status, account_type) 
 VALUES 
-('76056545-4', 'Soporte', 'solutiotechoficial@gmail.com', 'Soporte', '$2b$10$EHh6asHC6zY2fMOI0N4sSO8Er6zFgO9Jd2u3KNa9k62us1s4cMszS', 'CHILE', 'ACTIVA', 'SOPORTE'),
-('11222333-5', 'tecnico', 'tencnico.solutio@gmail.com' ,'tecnico', '$2b$10$5vnZ9V0ipuqO981vRqrFXenPMta30Hfgie9J6Bm.cRAcSEOELWROW', 'CHILE', 'ACTIVA', 'CLIENTE');
+('76056545-4', 'Soporte prueba', 'solutiotechoficial@gmail.com', 'soporte', '$2b$10$EHh6asHC6zY2fMOI0N4sSO8Er6zFgO9Jd2u3KNa9k62us1s4cMszS', 'Chile', 'ACTIVA', 'SOPORTE'),
+('11222333-5', 'Tecnico prueba', 'tencnico.solutio@gmail.com' ,'tecnico', '$2b$10$5vnZ9V0ipuqO981vRqrFXenPMta30Hfgie9J6Bm.cRAcSEOELWROW', 'Chile', 'ACTIVA', 'TECNICO');
+
+INSERT INTO system_technical (rut_user, skill, skill_description, skill_rating) values ('76056545-4', 'Desarrollador Web Front-end', '', 8.5);
+-- INSERT INTO system_technical (rut_user, skill, skill_description, skill_rating) values ('11222333-5', 'Soporte de mesa de ayuda', '', 5.9);
+
+INSERT INTO system_tickets (ticket_id, id_user, description, work_value, paid) VALUES (1, 1, '', 10000, 1);
+INSERT INTO system_chat (client_id, id_user, message, readed) VALUES (1,2,'Hola que tal',false);
+
+-- DELETE FROM system_users WHERE rut_user = '76056545-4';
